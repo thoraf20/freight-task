@@ -5,7 +5,27 @@ import {
 } from "@typegoose/typegoose";
 import { Field, ObjectType, ID } from "type-graphql";
 
-@ObjectType({ description: "The Notes Model" })
+@ObjectType()
+export class Service {
+  @Field()
+  type: string;
+
+  @Field({ nullable: true })
+  value: string;
+}
+@ObjectType()
+export class Cargo {
+  @Field()
+  type: string;
+
+  @Field()
+  description: String;
+
+  @Field()
+  volume: String;
+}
+
+@ObjectType({ description: "The Shipmenta Model" })
 @modelOptions({ schemaOptions: { collection: "shipments", timestamps: true } })
 export class Shipments {
   @Field(() => ID)
@@ -15,9 +35,9 @@ export class Shipments {
   @Property({ type: () => String, required: true })
   name: string;
 
-  @Field()
-  @Property({ type: () => String, required: true })
-  cargo: string;
+  @Field(() => [Cargo])
+  @Property({ required: true })
+  cargo: Cargo[];
 
   @Field()
   @Property({ type: () => String, required: true })
@@ -35,9 +55,9 @@ export class Shipments {
   @Property({ type: () => String, required: true })
   origin: string;
 
-  @Field()
-  @Property({ type: () => String, required: true })
-  service: string;
+  @Field(() => [Service])
+  @Property({ required: true })
+  services: Service[];
 
   @Field()
   @Property({ type: () => String, required: true })
@@ -51,13 +71,13 @@ export class Shipments {
   @Property({ type: () => String, required: true })
   user_id: string;
 
-  @Field()
-  @Property({ required: true, default: Date.now })
-  createdAt: Date;
+  // @Field()
+  // @Property({ required: true, default: Date.now })
+  // createdAt: Date;
 
-  @Field()
-  @Property({ required: true, default: Date.now })
-  updatedAt: Date;
+  // @Field()
+  // @Property({ required: true, default: Date.now })
+  // updatedAt: Date;
 }
 
 export const ShipmentsModel = getModelForClass(Shipments);
