@@ -25,7 +25,10 @@ type Mutation {
 
 type Query {
   """Get a list of all Shipments"""
-  shipments: [Shipments!]!
+  allshipments: [Shipments!]!
+
+  """Get a shipment by id"""
+  shipments(id: String!): Shipments!
 }
 
 type Service {

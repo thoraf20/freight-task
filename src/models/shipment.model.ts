@@ -71,13 +71,6 @@ export class Shipments {
   @Property({ type: () => String, required: true })
   user_id: string;
 
-  // @Field()
-  // @Property({ required: true, default: Date.now })
-  // createdAt: Date;
-
-  // @Field()
-  // @Property({ required: true, default: Date.now })
-  // updatedAt: Date;
 }
 
 export const ShipmentsModel = getModelForClass(Shipments);

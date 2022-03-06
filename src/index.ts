@@ -4,9 +4,11 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { connect } from "mongoose";
 import * as dotenv from "dotenv";
+import schema from "./resolvers/schema/schema";
 
 //Resolvers
 import { ShipmentsResolver } from "./resolvers/shipments.resolvers";
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 
 const executeMain = async () => {
   dotenv.config();
@@ -17,11 +19,16 @@ const executeMain = async () => {
     validate: false,
   });
 
+
   const mongoose = await connect(process.env.MONGO_URI);
 
   await mongoose.connection;
 
-  const server = new ApolloServer({ schema: schema });
+  const server = new ApolloServer({
+    // resolvers: [ShipmentsResolver],
+    schema: schema,
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground]
+  });
   const expressServer: Express.Application = Express();
 
   await server.start();

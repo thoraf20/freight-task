@@ -4,23 +4,22 @@ import { ShipmentsInput, UpdateShipmentInput } from "./types/shipments-inputs";
 
 @Resolver((_of) => Shipments)
 export class ShipmentsResolver {
-  @Query((_returns) => Shipments, {
-    nullable: false,
-    name: "shipments",
-    description: "Get a shipment by id",
-  })
-  async getShipmentsById(@Arg("id") id: string) {
-    return await ShipmentsModel.findById({ _id: id });
-  }
-
   @Query(() => [Shipments], {
-    name: "shipments",
+    name: "allshipments",
     description: "Get a list of all Shipments",
   })
   async getAllShipments() {
     return await ShipmentsModel.find();
   }
 
+  @Query((_returns) => Shipments, {
+    nullable: false,
+    name: "shipments",
+    description: "Get a shipment by id",
+  })
+  async getShipmentById(@Arg("id") id: string) {
+    return await ShipmentsModel.findById({ _id: id });
+  }
   @Mutation(() => Shipments, { name: "createShipments" })
   async createShipment(
     @Arg("newShipmentsInput")
@@ -78,7 +77,6 @@ export class ShipmentsResolver {
   async deleteShipments(@Arg("id") id: string): Promise<String> {
     const result = await ShipmentsModel.deleteOne({ _id: id });
 
-    // if (result.ok == 1) return id;
     return "";
   }
 }
